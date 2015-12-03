@@ -4,18 +4,20 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 userRouter.use(bodyParser.json());
+userRouter.use(bodyParser.urlencoded());
 
 /*
-*	Database Connection
-*/
-mongoose.connect('mongodb://localhost:27017/thinc'); // Connect to the database
+ * Database Connection
+ */
+mongoose.connect('mongodb://localhost:27017/thinc');
 
 var db = mongoose.connection;
 
-db.on('error', function(err) {throw err});
-db.once('open', function (){
-	console.log ("Connected to MongoDB, yei!");
-}); 
+db.on('error', function (err) { throw err });
+db.once('open', function () {
+	console.log('Connected to MongoDB, yei!');
+});
+
 
 /**
 	* Schema
@@ -45,18 +47,17 @@ var User = mongoose.model('users', userSchema);
 
 
 //USERS
-var users = [
-	'Server'
-];
+//var users = [
+//	'Server'
+//];
 
-userRouter.get('/', function (req, res){
-	//	res.send(users);
-	User.find(function (err, data){
-		if (err) {
-			throw err;
-		}
-		res.send(data);
-	});
+userRouter.get('/', function (req, res) {
+  	User.find(function (err, data) {
+    	if (err) {
+      		throw err;
+    	}
+    res.send(data);
+  });
 });
 
 userRouter.get('/:id', function (req, res){
@@ -66,41 +67,42 @@ userRouter.get('/:id', function (req, res){
 	});
 });
 
-userRouter.post('/', function (req, res){
+userRouter.post('/', function (req, res) {
+  var bodyData = req.body;
+  
+  if(!bodyData.name || !bodyData.password) {
+    res.send('Failure');
+  } else {
+    User.find(function (err, data) {
+      var nextId = data.length;
+      var newUser = new User({id: nextId, name: bodyData.name, password: bodyData.password});
+      newUser.save(function (err) {
+        res.send(newUser); 
+      });
+    });
+  }
+});
 
-	var bodyData = req.body || {};
 
-	if (!bodyData.name || !bodyData.password) {
-		res.send('Failure');
-	} else {
-		User.find(function(err,data) {
-			var nextId = data.length;
-			var newUser = new User({id: 0, name: bodyData.name, password:bodyData.password});
-			newUser.save(function (err){
-				res.send(newUser);
-			});
-		});
-	}
-}); 
-
-userRouter.put('/:id', function (req, res){
+userRouter.put('/:id', function (req, res) {
 	var id = req.params.id;
 	var bodyData = req.body || {};
 
 	if (!bodyData.name || !bodyData.password) {
 		res.send('Failure');
 	} else {
-		User.findOne({id: id}, function (err, user){
-			if (err){
-				throw err;
-			}
-			user.name = bodyData.name;
-			user.password = bodyData.password;
-			user.save(function(err) {
-				res.send(user);
-			});	
-		});
-	}
+	    User.findOne({id: id}, function (err, user) {
+	    if (err) {
+	        throw err;
+	    }
+
+	    user.name = bodyData.name;
+	    user.password = bodyData.password;
+	    user.save(function (err) {
+	    	res.send(user);
+	      });
+	    });
+	  }
 });
 
 /*userRouter.post('/', function (req, res){

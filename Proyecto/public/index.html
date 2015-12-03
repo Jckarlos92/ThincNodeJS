@@ -42,7 +42,7 @@
 				method: 'POST',
 				url: '/users',
 				contentType: 'application/json',
-				data: data,
+				data: JSON.stringify(data)
 			}).done(function() {
 				fetchUsers();
 			});
