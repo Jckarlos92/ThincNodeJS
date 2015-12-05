@@ -1,0 +1,26 @@
+{
+  "name": "thinc-node-js",
+  "version": "1.0.0",
+  "description": "Nodejs Project Repo for the Thinc-Ooyala course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HzJavier/thinc-nodejs.git"
+  },
+  "author": "Juan Carlos Nuño",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jckarlos92/ThincNodeJS/issues"
+  },
+  "homepage": "https://github.com/Jckarlos92/ThincNodeJS#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "bower": "^1.6.8",
+    "express": "^4.13.3",
+    "mongoose": "^4.2.8"
+  }
+}
