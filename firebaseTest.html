@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+</head>
+
+<body>
+  <h1>Welcome to Facebook Messenger Killer</h1>
+
+  <input type='text' id='idInput' placeholder='ID'>
+  <input type='text' id='nameInput' placeholder='Name'>
+  <input type='password' id='passwordInput'>
+
+  <script>
+  	var myDataRef = new Firebase('https://sizzling-fire-6907.firebaseio.com/');
+
+  	$('#passwordInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var id = $('#idInput').val(); 
+          var name = $('#nameInput').val();
+          var text = $('#passwordInput').val();
+          myDataRef.push({id: id, name: name, text: text});
+          $('#idInput').val('');
+          $('#nameInput').val('');
+          $('#passwordInput').val('');
+        }
+    });
+
+  </script>
+</body>
+
+</html>
